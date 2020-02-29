@@ -1,19 +1,8 @@
 from src.bubble import Bubble
 from src.bubble_types import BubbleTypes
 
-# checks wether all bubbles have been cleared from the board or not
-#
-# the board is considered empty if all elements equal 0
-def is_board_empty(board):
-  is_empty = True
-
-  for i in range(len(board)):
-    for j in range(len(board[i])):
-      if board[i] != BubbleTypes.Empty:
-        is_empty = False
-
-  return is_empty
-
+# Creates a board with the specified height and width (cells)
+# and fills it with empty bubbles
 def create_empty_board(height, width):
   board = []
 
@@ -25,6 +14,7 @@ def create_empty_board(height, width):
 
   return board
 
+# Prints the board on the console
 def print_board(board):
   for i in range(len(board)):
     print('\n')

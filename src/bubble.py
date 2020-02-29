@@ -5,9 +5,11 @@ class Bubble:
   def __init__(self, type):
     self.type = type
 
+  # returns the bubble's current health points (no. of touches left until it gets destroyed)
   def current_hp(self):
     return int(self.type)
   
+  # decrements the bubble's health points
   def decrement_hp(self):
     if self.type != BubbleTypes.Empty:
       hp = self.current_hp() - 1

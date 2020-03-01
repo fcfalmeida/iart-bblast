@@ -15,3 +15,20 @@ class TestUtils:
         assert len(board[i]) == 5
 
     assert len(board) == 6
+
+  def test_are_adjacent(self):
+    matrix = [
+      [0,0,0,0,0],
+      [1,0,0,2,1],
+      [0,0,1,0,0],
+      [1,1,0,3,0]
+    ]
+
+    assert utils.are_adjacent(matrix, 1, 0, 3, 0)
+    assert utils.are_adjacent(matrix, 3, 1, 3, 3)
+    assert utils.are_adjacent(matrix, 1, 3, 1, 4)
+    assert utils.are_adjacent(matrix, 1, 0, 1, 2)
+    assert utils.are_adjacent(matrix, 3, 3, 1, 3)
+    assert not utils.are_adjacent(matrix, 0, 1, 2, 2)
+    assert not utils.are_adjacent(matrix, 1, 0, 1, 4)
+    assert not utils.are_adjacent(matrix, 1, 1, 1, 1)

@@ -16,6 +16,23 @@ class TestUtils:
 
     assert len(board) == 6
 
+  def test_num_matrix_to_bubble_matrix(self):
+    num_matrix = [
+      [0,0,0,0,0],
+      [1,0,0,2,1],
+      [0,0,1,0,0],
+      [1,1,0,3,0]
+    ]
+
+    bubble_matrix = [
+      [Bubble(BubbleTypes.Empty) , Bubble(BubbleTypes.Empty) , Bubble(BubbleTypes.Empty) , Bubble(BubbleTypes.Empty) , Bubble(BubbleTypes.Empty) ],
+      [Bubble(BubbleTypes.Red) , Bubble(BubbleTypes.Empty) , Bubble(BubbleTypes.Empty) , Bubble(BubbleTypes.Green) , Bubble(BubbleTypes.Red) ],
+      [Bubble(BubbleTypes.Empty) , Bubble(BubbleTypes.Empty) , Bubble(BubbleTypes.Red) , Bubble(BubbleTypes.Empty) , Bubble(BubbleTypes.Empty) ],
+      [Bubble(BubbleTypes.Red) , Bubble(BubbleTypes.Red) , Bubble(BubbleTypes.Empty) , Bubble(BubbleTypes.Yellow) , Bubble(BubbleTypes.Empty) ] 
+    ]
+    
+    assert utils.num_matrix_to_bubble_matrix(num_matrix) == bubble_matrix
+
   def test_are_adjacent(self):
     matrix = [
       [0,0,0,0,0],
@@ -23,6 +40,15 @@ class TestUtils:
       [0,0,1,0,0],
       [1,1,0,3,0]
     ]
+    matrix = utils.num_matrix_to_bubble_matrix(matrix)
+
+    matrix2 = [
+      [1,0,0,0,0],
+      [0,0,0,2,1],
+      [1,0,1,0,0],
+      [0,1,0,3,0]
+    ]
+    matrix2 = utils.num_matrix_to_bubble_matrix(matrix2)
 
     assert utils.are_adjacent(matrix, 1, 0, 3, 0)
     assert utils.are_adjacent(matrix, 3, 1, 3, 3)
@@ -32,3 +58,4 @@ class TestUtils:
     assert not utils.are_adjacent(matrix, 0, 1, 2, 2)
     assert not utils.are_adjacent(matrix, 1, 0, 1, 4)
     assert not utils.are_adjacent(matrix, 1, 1, 1, 1)
+    assert utils.are_adjacent(matrix2, 0, 0, 2, 0)

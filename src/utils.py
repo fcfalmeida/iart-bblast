@@ -45,7 +45,7 @@ def are_adjacent(matrix, row1, col1, row2, col2):
       col_indexes = range(col2 + 1, col1)
 
     for col in col_indexes:
-      if matrix[row1][col] != int(BubbleTypes.Empty):
+      if matrix[row1][col].type != BubbleTypes.Empty:
         return False
 
   if col1 == col2:
@@ -57,11 +57,23 @@ def are_adjacent(matrix, row1, col1, row2, col2):
       row_indexes = range(row2 + 1, row1)
 
     for row in row_indexes:
-      print(matrix[row][col1])
-      if matrix[row][col1] != int(BubbleTypes.Empty):
+      if matrix[row][col1].type != BubbleTypes.Empty:
         return False
 
   return True
+
+def num_matrix_to_bubble_matrix(num_matrix):
+  bubble_matrix = []
+
+  for i in range(len(num_matrix)):
+    aux = []
+
+    for j in range(len(num_matrix[i])):
+      aux.append(Bubble(BubbleTypes(num_matrix[i][j])))
+
+    bubble_matrix.append(aux)
+
+  return bubble_matrix
 
 # Reads the given level file and returns a matrix representation of the board
 def read_level_file(file):

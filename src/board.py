@@ -35,3 +35,9 @@ class Board:
           matrix[i][j] = Bubble(BubbleTypes(int(matrix[i][j])))
 
     return matrix
+
+  def __eq__(self, other):
+    if not isinstance(other, Board):
+      return False
+
+    return self.matrix == other.matrix

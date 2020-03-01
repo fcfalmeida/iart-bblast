@@ -1,4 +1,5 @@
 from src.game_results import GameResults
+from src.bubble_types import BubbleTypes
 import src.utils as utils
 
 class GameState:
@@ -30,3 +31,32 @@ class GameState:
         self.result = GameResults.Win
       else:
         self.result = GameResults.Lose
+
+  def update_board(self, touch_row, touch_col):
+    new_matrix = self.__update_matrix(self.board.matrix, touch_row, touch_col)
+    self.board.matrix = new_matrix
+
+  def __update_matrix(self, matrix, touch_row, touch_col):
+    touched_bubble = matrix[touch_row][touch_col]
+
+    if touched_bubble.type == BubbleTypes.Empty:
+      return
+
+    touched_bubble.decrement_hp()
+    matrix[touch_row][touch_col] = touched_bubble
+
+    if touched_bubble.type == BubbleTypes.Empty:
+      # check bubbles on same column
+      for row in range(len(matrix)):
+        #if matrix[row][touch_col].type == BubbleTypes.Red:
+          if utils.are_adjacent(matrix, touch_row, touch_col, row, touch_col):
+            self.__update_matrix(matrix, row, touch_col)
+
+      # check bubbles on same row
+      for col in range(len(matrix[touch_row])):
+        #if matrix[touch_row][col].type == BubbleTypes.Red:
+          if utils.are_adjacent(matrix, touch_row, touch_col, touch_row, col):
+            self.__update_matrix(matrix, touch_row, col)
+
+    return matrix
+

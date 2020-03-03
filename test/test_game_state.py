@@ -71,6 +71,47 @@ class TestGameState:
     game_state = GameState(curr_board, 2)
     game_state.update_board(2, 2)
 
-    utils.print_board(game_state.board)
+    assert game_state.board == expected_board
+
+  def test_update_board_all_colors(self):
+    expected_board = Board()
+
+    # level 12
+    curr_board = Board([
+      [1,4,3,1,2], 
+      [1,0,3,1,4], 
+      [1,1,3,4,4], 
+      [2,2,1,2,1],
+      [2,2,1,0,3],
+      [0,0,1,2,1]
+    ])
+
+    game_state = GameState(curr_board, 1)
+    game_state.update_board(3, 2)
+
+    assert game_state.board == expected_board
+
+  def test_update_board_all_colors_2(self):
+    expected_board = Board([
+      [1,1,1,0,0], 
+      [0,0,0,0,0], 
+      [0,0,0,0,0], 
+      [0,0,0,0,0],
+      [0,0,0,0,0],
+      [1,0,0,0,0]
+    ])
+
+    # level 16
+    curr_board = Board([
+      [2,4,4,1,1], 
+      [2,2,2,0,4], 
+      [0,4,2,2,2], 
+      [1,1,1,3,1],
+      [1,4,0,1,4],
+      [4,0,3,2,0]
+    ])
+
+    game_state = GameState(curr_board, 1)
+    game_state.update_board(3, 2)
 
     assert game_state.board == expected_board

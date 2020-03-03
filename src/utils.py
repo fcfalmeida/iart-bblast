@@ -24,6 +24,15 @@ def print_board(board):
 
   print('\n')
 
+# Prints the board matrix on the console
+def print_matrix(matrix):
+  for i in range(len(matrix)):
+    print('\n')
+    for j in range(len(matrix[i])):
+      print('[', matrix[i][j], ']', end='')
+
+  print('\n')
+
 # Given a board matrix, checks if the bubbles with the given
 # coordinates are adjacent or not
 #
@@ -35,6 +44,9 @@ def are_adjacent(matrix, row1, col1, row2, col2):
 
   if row1 == row2 and col1 == col2:
     return False
+
+  #if matrix[row1][col1].type == BubbleTypes.Empty or matrix[row2][col2].type == BubbleTypes.Empty:
+  #  return False
 
   if row1 == row2:
     col_indexes = []

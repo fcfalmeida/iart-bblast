@@ -38,6 +38,9 @@ def print_matrix(matrix):
 #
 # Two bubbles are adjacent if they are on the same row or column
 # and if there are only empty bubbles between them
+# 
+# If the second bubble is empty, they are not considered adjacent
+# and thus this function returns false
 def are_adjacent(matrix, row1, col1, row2, col2):
   if not (row1 == row2 or col1 == col2):
     return False
@@ -45,8 +48,8 @@ def are_adjacent(matrix, row1, col1, row2, col2):
   if row1 == row2 and col1 == col2:
     return False
 
-  #if matrix[row1][col1].type == BubbleTypes.Empty or matrix[row2][col2].type == BubbleTypes.Empty:
-  #  return False
+  if matrix[row2][col2].type == BubbleTypes.Empty:
+    return False
 
   if row1 == row2:
     col_indexes = []

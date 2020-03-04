@@ -31,6 +31,9 @@ class GameState:
     self.__check_result()
 
   def update_board(self, touch_row, touch_col):
+    if self.board.matrix[touch_row][touch_col].type == BubbleTypes.Empty:
+      return
+
     old_matrix = deepcopy(self.board.matrix)
     new_matrix = self.__update_matrix(self.board.matrix, touch_row, touch_col)
     self.board.matrix = new_matrix

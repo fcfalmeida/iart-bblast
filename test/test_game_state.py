@@ -16,7 +16,7 @@ class TestGameState:
     game_state.update_board(0, 1)
 
     assert game_state.board == curr_board
-    assert game_state.result == GameResults.Lose
+    assert game_state.result == None
 
   def test_update_board_single_red_bubble(self):
     empty_board = Board()

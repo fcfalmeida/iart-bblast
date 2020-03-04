@@ -3,33 +3,87 @@ from src.board import Board
 from src.bubble_types import BubbleTypes
 from src.bubble import Bubble
 from src.game_state import GameState
+from src.game_results import GameResults
 from copy import deepcopy
 
-#board = utils.read_level_file('lvl1')
-#utils.print_board(Board(board))
+def read_op():
+  op = input('Select an option: ')
+  print()
+  return int(op)
 
-curr_board = Board([
-  [2,4,4,1,1], 
-  [2,2,2,0,4], 
-  [0,4,2,2,2], 
-  [1,1,1,3,1],
-  [1,4,0,1,4],
-  [4,0,3,2,0]
-])
+def print_header(game_state):
+    print('=' * 37)
+    print('Touches left: ', game_state.touches_left, ' | Score: ', game_state.score)
+    print('=' * 37)
+    print()
 
-matrix = utils.num_matrix_to_bubble_matrix([
-  [1,0,2]
-])
+def game_loop(game_state):
+  while game_state.result == None:
+    print_header(game_state)
+    utils.print_board(game_state.board)
+    
+    player_input = input('Touch row,col: ').split(',')
+    row = int(player_input[0])
+    col = int(player_input[1])
+    
+    print()
 
-matrix2 = matrix
-matrix2[0][0] = 2
-print(matrix[0][0])
+    game_state.update_board(row, col)
 
-bubble = Bubble(BubbleTypes.Blue)
-matrix[0][0] = bubble
-print(matrix[0][0])
-bubble.decrement_hp()
-print(matrix[0][0])
+  print_header(game_state)
+  utils.print_board(game_state.board)
 
-game_state = GameState(curr_board, 2)
-game_state.update_board(3, 2)
+  if game_state.result == GameResults.Win:
+    print('**** You Won! ****')
+  else:
+    print('**** You Lost! ****')
+
+  print()
+
+def levels_menu():
+  levels = utils.list_levels()
+
+  for level in levels:
+    print(level, ' - Level ', level)
+
+  op = read_op()
+  selected_level = levels[op]
+
+  return selected_level
+
+def play():
+  selected_level = levels_menu()
+
+  board_matrix, max_touches = utils.read_level_file(selected_level)
+  board = Board(board_matrix)
+
+  game_state = GameState(board, max_touches)
+
+  game_loop(game_state)
+
+def solve():
+  pass
+
+def print_options(options_dict):
+  for op in options_dict:
+    option = options_dict.get(op)
+    print(option[0])
+
+def main_menu():
+  options = {
+    1: ['1 - Play', play],
+    2: ['2 - Solve', solve]
+  }
+
+  print_options(options)
+
+  op = read_op()
+
+  func = options.get(op, lambda: 'Invalid Option')[1]
+  return func()
+
+def main_loop():
+  while True:
+    main_menu()
+
+main_loop()

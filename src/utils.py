@@ -18,8 +18,17 @@ def create_empty_board(height, width):
 
 # Prints the board on the console
 def print_board(board):
+  print('   ', end='')
+  for j in range(len(board.matrix[0])):
+    print('|', j, '|', end='')
+
+  print('\n  --------------------------')
+
   for i in range(len(board.matrix)):
-    print('\n')
+    if i > 0: print('\n')
+
+    print(i, '|', end='')
+
     for j in range(len(board.matrix[i])):
       print('[', board.matrix[i][j], ']', end='')
 

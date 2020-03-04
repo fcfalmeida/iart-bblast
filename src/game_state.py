@@ -12,24 +12,7 @@ class GameState:
     self.score = 0
     self.result = None
 
-  # sets the board for the game state
-  def set_board(self, board):
-    self.board = board
-
-  # increases the current score
-  def increase_score(self, amount):
-    self.score += amount
-
-  # decrements the number of touches left in the game
-  #
-  # if touches_left reaches 0 and the board is empty, then the game result is set as Win
-  # if touches_left reaches 0 and the board is not empty, then the game result is set as Lose
-  def decrement_touches(self):
-    if self.touches_left > 0:
-      self.touches_left -= 1
-
-    self.__check_result()
-
+  # receives a move and updates the board, score and touches left accordingly
   def update_board(self, touch_row, touch_col):
     if self.board.matrix[touch_row][touch_col].type == BubbleTypes.Empty:
       return
@@ -39,8 +22,7 @@ class GameState:
     self.board.matrix = new_matrix
 
     self.__calculate_score(old_matrix)
-
-    self.decrement_touches()
+    self.__decrement_touches()
 
   def __update_matrix(self, matrix, touch_row, touch_col):
     touched_bubble = matrix[touch_row][touch_col]
@@ -137,6 +119,16 @@ class GameState:
       matrix = self.__update_matrix(matrix, row, col)
 
     return matrix
+
+  # decrements the number of touches left in the game
+  #
+  # if touches_left reaches 0 and the board is empty, then the game result is set as Win
+  # if touches_left reaches 0 and the board is not empty, then the game result is set as Lose
+  def __decrement_touches(self):
+    if self.touches_left > 0:
+      self.touches_left -= 1
+
+    self.__check_result()
 
   def __calculate_score(self, old_matrix):
     old_num_empty = utils.count_empty_bubbles(old_matrix)

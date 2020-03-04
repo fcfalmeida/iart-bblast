@@ -38,7 +38,6 @@ class GameState:
     self.board.matrix = new_matrix
 
   def __update_matrix(self, matrix, touch_row, touch_col):
-    print(utils.print_matrix(matrix))
     touched_bubble = matrix[touch_row][touch_col]
 
     if touched_bubble.type == BubbleTypes.Empty:
@@ -49,17 +48,87 @@ class GameState:
 
     # if bubble has been destroyed
     if touched_bubble.type == BubbleTypes.Empty:
-      # we search for all adjacent bubbles
-      for row in range(len(matrix)):
-        for col in range(len(matrix[row])):
-          if utils.are_adjacent(matrix, touch_row, touch_col, row, col):
-            # if an adjacent bubble is red, then recursively call the function on it
-            if matrix[row][col].type == BubbleTypes.Red:
-              matrix = self.__update_matrix(matrix, row, col)
-            else:
-              # this line may try to decrease the HP of an empty bubble but it does nothing
-              # since HP can't go below 0
-              matrix[row][col].decrement_hp()
+      # check each direction for adjacent bubbles and recursively call the function
+      # on red ones
+      matrix = self.__check_left(matrix, touch_row, touch_col)
+      matrix = self.__check_up(matrix, touch_row, touch_col)
+      matrix = self.__check_right(matrix, touch_row, touch_col)
+      matrix = self.__check_down(matrix, touch_row, touch_col)
           
     return matrix
 
+  def __check_right(self, matrix, touch_row, touch_col):
+    if touch_col == len(matrix[touch_row]) - 1: return matrix
+
+    queue = []
+
+    for col in range(touch_col + 1, len(matrix[touch_row])):
+      if utils.are_adjacent(matrix, touch_row, touch_col, touch_row, col):
+        if matrix[touch_row][col].type == BubbleTypes.Red:
+          queue.append([touch_row, col])   
+        else:
+          matrix[touch_row][col].decrement_hp()
+
+    for pos in queue:
+      row = pos[0]
+      col = pos[1]
+      matrix = self.__update_matrix(matrix, row, col)
+
+    return matrix
+
+  def __check_left(self, matrix, touch_row, touch_col):
+    if touch_col == 0: return matrix
+
+    queue = []    
+
+    for col in reversed(range(0, touch_col)):
+      if utils.are_adjacent(matrix, touch_row, touch_col, touch_row, col):
+        if matrix[touch_row][col].type == BubbleTypes.Red:
+          queue.append([touch_row, col])
+        else:
+          matrix[touch_row][col].decrement_hp()
+
+    for pos in queue:
+      row = pos[0]
+      col = pos[1]
+      matrix = self.__update_matrix(matrix, row, col)
+
+    return matrix
+
+  def __check_up(self, matrix, touch_row, touch_col):
+    if touch_row == 0: return matrix
+
+    queue = []
+
+    for row in reversed(range(0, touch_row)):
+      if utils.are_adjacent(matrix, touch_row, touch_col, row, touch_col):
+        if matrix[row][touch_col].type == BubbleTypes.Red:
+          queue.append([row, touch_col])
+        else:
+          matrix[row][touch_col].decrement_hp()
+
+    for pos in queue:
+      row = pos[0]
+      col = pos[1]
+      matrix = self.__update_matrix(matrix, row, col)
+
+    return matrix
+
+  def __check_down(self, matrix, touch_row, touch_col):
+    if touch_row == len(matrix) - 1: return matrix
+
+    queue = []
+
+    for row in range(touch_row, len(matrix)):
+      if utils.are_adjacent(matrix, touch_row, touch_col, row, touch_col):
+        if matrix[row][touch_col].type == BubbleTypes.Red:
+          queue.append([row, touch_col])
+        else:
+          matrix[row][touch_col].decrement_hp()
+
+    for pos in queue:
+      row = pos[0]
+      col = pos[1]
+      matrix = self.__update_matrix(matrix, row, col)
+
+    return matrix

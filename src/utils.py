@@ -1,5 +1,6 @@
 from src.bubble import Bubble
 from src.bubble_types import BubbleTypes
+import glob
 
 # Creates a board with the specified height and width (cells)
 # and fills it with empty bubbles
@@ -102,11 +103,15 @@ def count_empty_bubbles(bubble_matrix):
   return count
 
 # Reads the given level file and returns a matrix representation of the board
+# as well as the maximum number of touches allowed for the level
 def read_level_file(file):
   board = []
 
   f = open(file, 'r')
   lines = f.readlines()
+
+  # 1st line of a level file indicates the max number of touches
+  max_touches = int(lines.pop(0))
 
   for line in lines:
     lineArr = line.split()
@@ -117,4 +122,15 @@ def read_level_file(file):
     
     board.append(aux)
 
-  return board
+  return board, max_touches
+
+def list_levels():
+  file_names = glob.glob('levels/*')
+
+  levels = {}
+
+  for file in file_names:
+    level_num = int(file.split('/')[1])
+    levels[level_num] = file
+
+  return levels

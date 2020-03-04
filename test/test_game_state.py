@@ -1,4 +1,5 @@
 from src.game_state import GameState
+from src.game_results import GameResults
 from src.board import Board
 import src.utils as utils
 
@@ -15,6 +16,7 @@ class TestGameState:
     game_state.update_board(0, 1)
 
     assert game_state.board == curr_board
+    assert game_state.result == GameResults.Lose
 
   def test_update_board_single_red_bubble(self):
     empty_board = Board()
@@ -31,6 +33,7 @@ class TestGameState:
     game_state.update_board(2, 2)
 
     assert game_state.board == empty_board
+    assert game_state.result == GameResults.Win
 
   def test_update_board_multiple_red_bubbles(self):
     empty_board = Board()
@@ -47,6 +50,7 @@ class TestGameState:
     game_state.update_board(0, 0)
 
     assert game_state.board == empty_board
+    assert game_state.result == GameResults.Win
 
   def test_update_board_red_green_bubbles(self):
     expected_board = Board([
@@ -72,6 +76,7 @@ class TestGameState:
     game_state.update_board(2, 2)
 
     assert game_state.board == expected_board
+    assert game_state.result == None
 
   def test_update_board_level_12(self):
     expected_board = Board()
@@ -89,6 +94,7 @@ class TestGameState:
     game_state.update_board(3, 2)
 
     assert game_state.board == expected_board
+    assert game_state.result == GameResults.Win
 
   def test_update_board_level_16(self):
     expected_board = Board([
@@ -113,6 +119,7 @@ class TestGameState:
     game_state.update_board(3, 2)
 
     assert game_state.board == expected_board
+    assert game_state.result == GameResults.Lose
 
   def test_update_board_level_17(self):
     expected_board = Board([
@@ -137,11 +144,13 @@ class TestGameState:
     game_state.update_board(3, 3)
 
     assert game_state.board == expected_board
+    assert game_state.result == None
 
     expected_board = Board()
     game_state.update_board(4, 3)
 
     assert game_state.board == expected_board
+    assert game_state.result == GameResults.Win
 
   def test_update_board_level_18(self):
     expected_board = Board()
@@ -158,6 +167,5 @@ class TestGameState:
     game_state = GameState(curr_board, 1)
     game_state.update_board(4, 2)
 
-    utils.print_board(game_state.board)
-
     assert game_state.board == expected_board
+    assert game_state.result == GameResults.Win

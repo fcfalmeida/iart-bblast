@@ -90,6 +90,17 @@ def num_matrix_to_bubble_matrix(num_matrix):
 
   return bubble_matrix
 
+# returns the number of empty bubbles in the given bubble matrix
+def count_empty_bubbles(bubble_matrix):
+  count = 0
+
+  for i in range(len(bubble_matrix)):
+    for j in range(len(bubble_matrix[i])):
+      if bubble_matrix[i][j].type == BubbleTypes.Empty:
+        count += 1
+
+  return count
+
 # Reads the given level file and returns a matrix representation of the board
 def read_level_file(file):
   board = []

@@ -1,10 +1,11 @@
 from src.game_results import GameResults
 from src.bubble_types import BubbleTypes
 import src.utils as utils
+import math
 from copy import deepcopy
 
 class GameState:
-  
+
   def __init__(self, board, touches_left):
     self.board = board
     self.touches_left = touches_left
@@ -22,20 +23,21 @@ class GameState:
   # decrements the number of touches left in the game
   #
   # if touches_left reaches 0 and the board is empty, then the game result is set as Win
-  # if touches_left reaches 0 and the board is not empty, then the gam result is set as Lose
+  # if touches_left reaches 0 and the board is not empty, then the game result is set as Lose
   def decrement_touches(self):
     if self.touches_left > 0:
       self.touches_left -= 1
 
-    if self.touches_left == 0:
-      if utils.is_board_empty(board):
-        self.result = GameResults.Win
-      else:
-        self.result = GameResults.Lose
+    self.__check_result()
 
   def update_board(self, touch_row, touch_col):
+    old_matrix = deepcopy(self.board.matrix)
     new_matrix = self.__update_matrix(self.board.matrix, touch_row, touch_col)
     self.board.matrix = new_matrix
+
+    self.__calculate_score(old_matrix)
+
+    self.decrement_touches()
 
   def __update_matrix(self, matrix, touch_row, touch_col):
     touched_bubble = matrix[touch_row][touch_col]
@@ -132,3 +134,22 @@ class GameState:
       matrix = self.__update_matrix(matrix, row, col)
 
     return matrix
+
+  def __calculate_score(self, old_matrix):
+    old_num_empty = utils.count_empty_bubbles(old_matrix)
+    new_num_empty = utils.count_empty_bubbles(self.board.matrix)
+
+    # number of bubbles destroyed in one move
+    delta = new_num_empty - old_num_empty
+
+    # avoid domain error in log function
+    if delta == 0: return delta
+
+    self.score += int(delta * 10 + math.log(delta))
+
+  def __check_result(self):
+    if self.touches_left == 0:
+      if self.board.is_empty():
+        self.result = GameResults.Win
+      elif self.board.is_empty and self.touches_left == 0:
+        self.result = GameResults.Lose

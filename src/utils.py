@@ -1,5 +1,6 @@
 from src.bubble import Bubble
 from src.bubble_types import BubbleTypes
+from copy import deepcopy
 import glob
 
 # Creates a board with the specified height and width (cells)
@@ -143,3 +144,42 @@ def list_levels():
     levels[level_num] = file
 
   return levels
+
+# returns the next possible states of a given game state
+# wrapped in a list
+def get_possible_next_states_path(game_state):
+  next_states = []
+  possible_moves = game_state.valid_moves()
+  
+  for move in possible_moves:
+    state = get_next_state(game_state, move)
+    next_states.append([(state, move)]) # the state and the move that caused it
+
+  return next_states
+
+# returns the next possible states of a given game state
+def get_possible_next_states(game_state):
+  next_states = []
+  possible_moves = game_state.valid_moves()
+  
+  for move in possible_moves:
+    state = get_next_state(game_state, move)
+    next_states.append((state, move)) # the state and the move that caused it
+
+  return next_states
+
+def get_next_state(game_state, move):
+  move_row, move_col = move
+  game_state_cpy = deepcopy(game_state)
+
+  game_state_cpy.update_board(move_row, move_col)
+
+  return game_state_cpy
+
+def extract_solution(solution):
+  moves = []
+
+  for state, move in solution:
+    moves.append(move)
+
+  return moves

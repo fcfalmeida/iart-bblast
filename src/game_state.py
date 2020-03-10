@@ -12,8 +12,22 @@ class GameState:
     self.score = 0
     self.result = None
 
+  def valid_moves(self):
+    if self.touches_left == 0: return []
+
+    moves = []
+
+    for row in range(len(self.board.matrix)):
+      for col in range(len(self.board.matrix[row])):
+        if self.board.matrix[row][col].type != BubbleTypes.Empty:
+          moves.append((row, col))
+
+    return moves
+
   # receives a move and updates the board, score and touches left accordingly
   def update_board(self, touch_row, touch_col):
+    if self.touches_left == 0: return
+    
     if self.board.matrix[touch_row][touch_col].type == BubbleTypes.Empty:
       return
 

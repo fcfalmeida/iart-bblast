@@ -169,3 +169,37 @@ class TestGameState:
 
     assert game_state.board == expected_board
     assert game_state.result == GameResults.Win
+
+  def test_valid_moves(self):
+    # level 7
+    board = Board([
+      [0,0,0,0,0], 
+      [0,1,0,1,0], 
+      [1,2,1,2,1], 
+      [0,2,0,2,0],
+      [0,1,0,1,0],
+      [0,0,0,0,0]
+    ])
+
+    game_state = GameState(board, 2)
+
+    expected = [(1,1), (1,3), (2,0), (2,1), (2,2), (2,3), (2,4), (3,1), (3,3), (4,1), (4,3)]
+
+    assert game_state.valid_moves() == expected
+
+  def test_valid_moves_no_touches_left(self):
+    # level 7
+    board = Board([
+      [0,0,0,0,0], 
+      [0,1,0,1,0], 
+      [1,2,1,2,1], 
+      [0,2,0,2,0],
+      [0,1,0,1,0],
+      [0,0,0,0,0]
+    ])
+
+    game_state = GameState(board, 0)
+
+    expected = []
+
+    assert game_state.valid_moves() == expected

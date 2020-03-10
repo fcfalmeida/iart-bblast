@@ -1,10 +1,11 @@
+import time
 import src.utils as utils
 from src.board import Board
 from src.bubble_types import BubbleTypes
 from src.bubble import Bubble
 from src.game_state import GameState
 from src.game_results import GameResults
-from copy import deepcopy
+from src.algorithms import algorithms
 
 def read_op():
   op = input('Select an option: ')
@@ -43,13 +44,27 @@ def game_loop(game_state):
 def levels_menu():
   levels = utils.list_levels()
 
+  print('**** Level ****')
+
   for level in levels:
-    print(level, ' - Level ', level)
+    print(level, ' - Level ', level, sep='')
 
   op = read_op()
   selected_level = levels[op]
 
   return selected_level
+
+def algorithms_menu():
+  print('**** Algorithm ****')
+
+  for alg_key in algorithms:
+    algorithm = algorithms[alg_key]
+    print(alg_key, ' - ', algorithm[0])
+
+  op = read_op()
+  selected_algorithm = algorithms[op][1]
+
+  return selected_algorithm
 
 def play():
   selected_level = levels_menu()
@@ -62,7 +77,36 @@ def play():
   game_loop(game_state)
 
 def solve():
-  pass
+  selected_level = levels_menu()
+  algorithm = algorithms_menu()
+
+  board_matrix, max_touches = utils.read_level_file(selected_level)
+  board = Board(board_matrix)
+
+  game_state = GameState(board, max_touches)
+
+  print_header(game_state)
+  utils.print_board(game_state.board)
+
+  start_time = time.time()
+  solution = algorithm.execute(game_state)
+  end_time = time.time()
+  total_time = round(end_time - start_time, 2)
+
+  for move in solution:
+    move_row, move_col = move
+    game_state.update_board(move_row, move_col)
+    print('Move: [', move_row, ',', move_col, ']')
+    print_header(game_state)
+    utils.print_board(game_state.board)
+
+  if game_state.result == GameResults.Win:
+    print('**** You Won! ****')
+  else:
+    print('**** You Lost! ****')
+
+  print('\nSolved in ', total_time, ' seconds', sep='')
+  print()
 
 def print_options(options_dict):
   for op in options_dict:

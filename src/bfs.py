@@ -1,6 +1,5 @@
 from src.search_algorithm import SearchAlgorithm
 from src.game_results import GameResults
-from copy import deepcopy
 import src.utils as utils
 
 # https://stackoverflow.com/questions/8922060/how-to-trace-the-path-in-a-breadth-first-search

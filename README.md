@@ -27,6 +27,15 @@ And then activate it using
 source venv/bin/activate
 ```
 
+---
+**For Windows**
+
+```
+source venv/Scripts/activate
+```
+
+---
+
 Install dependencies by running
 
 ```

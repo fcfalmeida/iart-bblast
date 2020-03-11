@@ -140,7 +140,11 @@ def list_levels():
   levels = {}
 
   for file in file_names:
-    level_num = int(file.split('/')[1])
+    tmp = file.split('\\')
+    if len(tmp) < 2:
+      tmp=file.split('/')
+
+    level_num = int(tmp[1])
     levels[level_num] = file
 
   return levels

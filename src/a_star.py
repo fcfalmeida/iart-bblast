@@ -1,11 +1,13 @@
 from src.search_algorithm import SearchAlgorithm
 from src.game_results import GameResults
+from src.score_heuristic import Score
+from src.bubbles_left_heuristic import BubblesLeft
 import src.utils as utils
 
-class Greedy(SearchAlgorithm):
+class AStar(SearchAlgorithm):
   @staticmethod
   def execute(game_state, heuristic):
-    solution = Greedy.algorithm(game_state, heuristic)
+    solution = AStar.algorithm(game_state, heuristic)
 
     return utils.extract_solution(solution)
 
@@ -21,10 +23,10 @@ class Greedy(SearchAlgorithm):
       optimal_state = None
 
       for next_state in stack:
-        heuristic_value = heuristic.calculate(next_state[0][0])
-        if heuristic_value > optimal_value and (next_state[0][0].board.matrix not in visited_states):
+        value = Score.calculate(next_state[0][0]) + BubblesLeft.calculate(next_state[0][0])
+        if value > optimal_value and (next_state[0][0].board.matrix not in visited_states):
           optimal_state = next_state[0]
-          optimal_value = heuristic_value
+          optimal_value = value
 
       if optimal_state != None:
         stack = utils.get_possible_next_states_path(optimal_state[0])

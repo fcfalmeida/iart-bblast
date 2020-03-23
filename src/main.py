@@ -64,7 +64,7 @@ def algorithms_menu():
 
   heuristic = None
   op = read_op()
-  if op > 4:
+  if op == 5:
     heuristic = heuristic_menu()
   selected_algorithm = algorithms[op][1]
 

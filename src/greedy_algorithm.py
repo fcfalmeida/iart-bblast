@@ -1,10 +1,13 @@
 from src.search_algorithm import SearchAlgorithm
 from src.game_results import GameResults
 import src.utils as utils
+import sys
 
 class Greedy(SearchAlgorithm):
   @staticmethod
   def execute(game_state, heuristic):
+    sys.setrecursionlimit(10**6) 
+
     solution = Greedy.recursive(game_state, [], [], [], heuristic)
 
     return utils.extract_solution(solution)

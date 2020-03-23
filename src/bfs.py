@@ -5,7 +5,7 @@ import src.utils as utils
 # https://stackoverflow.com/questions/8922060/how-to-trace-the-path-in-a-breadth-first-search
 class BFS(SearchAlgorithm):
   @staticmethod
-  def execute(game_state, heuristic):
+  def execute(game_state, heuristic = None):
     queue = utils.get_possible_next_states_path(game_state)
     max_touches = game_state.touches_left
 

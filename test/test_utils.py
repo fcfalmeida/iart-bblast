@@ -62,3 +62,16 @@ class TestUtils:
     assert not utils.are_adjacent(matrix, 1, 0, 1, 4)
     assert not utils.are_adjacent(matrix, 1, 1, 1, 1)
     assert utils.are_adjacent(matrix2, 0, 0, 2, 0)
+
+  def test_calculate_board_value(self):
+    matrix = [
+      [4,0,0,0,0],
+      [1,0,0,2,1],
+      [0,0,1,0,0],
+      [1,1,0,3,0]
+    ]
+    matrix = utils.num_matrix_to_bubble_matrix(matrix)
+
+    board_value = utils.calculate_board_value(matrix)
+
+    assert board_value == 14

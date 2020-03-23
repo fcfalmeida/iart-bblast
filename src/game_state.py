@@ -145,11 +145,11 @@ class GameState:
     self.__check_result()
 
   def __calculate_score(self, old_matrix):
-    old_num_empty = utils.count_empty_bubbles(old_matrix)
-    new_num_empty = utils.count_empty_bubbles(self.board.matrix)
+    old_board_value = utils.calculate_board_value(old_matrix)
+    new_board_value = utils.calculate_board_value(self.board.matrix)
 
     # number of bubbles destroyed in one move
-    delta = new_num_empty - old_num_empty
+    delta = old_board_value - new_board_value
 
     # avoid domain error in log function
     if delta == 0: return delta

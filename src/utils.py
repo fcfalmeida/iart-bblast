@@ -112,6 +112,15 @@ def count_empty_bubbles(bubble_matrix):
 
   return count
 
+def calculate_board_value(bubble_matrix):
+  total = 0
+  for i in range(len(bubble_matrix)):
+    for j in range(len(bubble_matrix[i])):
+      total += bubble_matrix[i][j].current_hp()
+
+  return total
+
+
 # Reads the given level file and returns a matrix representation of the board
 # as well as the maximum number of touches allowed for the level
 def read_level_file(file):

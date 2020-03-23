@@ -4,7 +4,7 @@ import src.utils as utils
 
 class DFS(SearchAlgorithm):
   @staticmethod
-  def execute(game_state):
+  def execute(game_state, heuristic):
     stack = utils.get_possible_next_states_path(game_state)
     max_touches = game_state.touches_left
 

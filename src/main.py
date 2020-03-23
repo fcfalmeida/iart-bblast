@@ -6,6 +6,7 @@ from src.bubble import Bubble
 from src.game_state import GameState
 from src.game_results import GameResults
 from src.algorithms import algorithms
+from src.heuristics import heuristics
 
 def read_op():
   op = input('Select an option: ')
@@ -61,10 +62,13 @@ def algorithms_menu():
     algorithm = algorithms[alg_key]
     print(alg_key, ' - ', algorithm[0])
 
+  heuristic = None
   op = read_op()
+  if op > 4:
+    heuristic = heuristic_menu()
   selected_algorithm = algorithms[op][1]
 
-  return selected_algorithm
+  return selected_algorithm, heuristic
 
 def play():
   selected_level = levels_menu()
@@ -78,7 +82,8 @@ def play():
 
 def solve():
   selected_level = levels_menu()
-  algorithm = algorithms_menu()
+  algorithm, heuristic = algorithms_menu()
+
 
   board_matrix, max_touches = utils.read_level_file(selected_level)
   board = Board(board_matrix)
@@ -89,7 +94,7 @@ def solve():
   utils.print_board(game_state.board)
 
   start_time = time.time()
-  solution = algorithm.execute(game_state)
+  solution = algorithm.execute(game_state, heuristic)
   end_time = time.time()
   total_time = round(end_time - start_time, 2)
 
@@ -129,5 +134,17 @@ def main_menu():
 def main_loop():
   while True:
     main_menu()
+
+def heuristic_menu():
+  print("**** Heuristic ****")
+
+  for heur_key in heuristics:
+    heuristic = heuristics[heur_key]
+    print(heur_key, ' - ', heuristic[0])
+
+  op = read_op()
+  selected_heuristic = heuristics[op][1]
+
+  return selected_heuristic
 
 main_loop()

@@ -196,3 +196,11 @@ def extract_solution(solution):
     moves.append(move)
 
   return moves
+
+def get_matrix_borders(matrix):
+  borders = list(matrix[0]) \
+    + list([i[-1] for i in matrix[1:-1]]) \
+    + list(reversed(matrix[-1])) \
+    + list(reversed([i[0] for i in matrix[1:-1]]))
+
+  return borders;

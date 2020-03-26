@@ -204,3 +204,9 @@ def get_matrix_borders(matrix):
     + list(reversed([i[0] for i in matrix[1:-1]]))
 
   return borders;
+
+
+#For UCS sort
+def helper_sort(elem):
+  val = calculate_board_value(elem[0][0].board.matrix)
+  return val

@@ -18,8 +18,7 @@ def read_op():
 
 def print_header(game_state):
     print("=" * 37)
-    print("Touches left: ", game_state.touches_left, " | Score: ",
-          game_state.score)
+    print("Touches left: ", game_state.touches_left, " | Score: ", game_state.score)
     print("=" * 37)
     print()
 

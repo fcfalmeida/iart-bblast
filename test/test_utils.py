@@ -75,3 +75,17 @@ class TestUtils:
     board_value = utils.calculate_board_value(matrix)
 
     assert board_value == 14
+
+  def test_get_matrix_borders(self):
+    matrix = [
+      [4,0,0,0,0],
+      [1,0,0,2,1],
+      [0,0,1,0,0],
+      [1,1,0,3,0]
+    ]
+
+    expected = [4,0,0,0,0,1,0,0,3,0,1,1,0,1]
+
+    borders = utils.get_matrix_borders(matrix)
+
+    assert borders == expected

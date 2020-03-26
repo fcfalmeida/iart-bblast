@@ -157,7 +157,7 @@ class GameState:
     self.score += int(delta * 10 + math.log(delta))
 
   def __check_result(self):
-    if self.touches_left == 0:
+
       if self.board.is_empty():
         self.result = GameResults.Win
       elif self.board.is_empty and self.touches_left == 0:
